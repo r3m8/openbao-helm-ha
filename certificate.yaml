@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openbao-cert
+  namespace: openbao
+spec:
+  secretName: openbao-cert-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+  dnsNames:
+    - "vault-production-openbao-active"
+    - "*.vault-production-openbao-internal"
+    - "*.vault-production-openbao-internal.vault-system"
+    - "*.vault-production-openbao-internal.vault-system.svc"
+    - "*.vault-production-openbao-internal.vault-system.svc.cluster.local"
+  ipAddresses:
+    - "127.0.0.1"
+  issuerRef:
+    name: sub1-ca-cluster-issuer
+    kind: ClusterIssuer
