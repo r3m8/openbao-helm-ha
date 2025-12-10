@@ -9,7 +9,7 @@ global:
   enabled: true
 
   # -- The namespace to deploy to. Defaults to the `helm` installation namespace.
-  namespace: ""
+  namespace: "openbao"
 
   # -- Image pull secret to use for registry authentication.
   # Alternatively, the value may be specified as an array of strings.
@@ -43,13 +43,13 @@ global:
   serverTelemetry:
     # -- Enable integration with the Prometheus Operator
     # See the top level serverTelemetry section below before enabling this feature.
-    prometheusOperator: false
+    prometheusOperator: true
 
 injector:
   # -- True if you want to enable openbao agent injection. @default: global.enabled
   enabled: "-"
 
-  replicas: 1
+  replicas: 3
 
   # -- Configures the port the injector should listen on
   port: 8080
@@ -61,7 +61,7 @@ injector:
 
   # -- If true, will enable a node exporter metrics endpoint at /metrics.
   metrics:
-    enabled: false
+    enabled: true
 
   # -- Deprecated: Please use global.externalBaoAddr instead.
   externalVaultAddr: ""
@@ -94,8 +94,8 @@ injector:
   agentDefaults:
     # For more information on configuring resources, see the K8s documentation:
     # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-    cpuLimit: "500m"
-    cpuRequest: "250m"
+    # cpuLimit: "500m"
+    # cpuRequest: "250m"
     memLimit: "128Mi"
     memRequest: "64Mi"
     # ephemeralLimit: "128Mi"
@@ -862,7 +862,7 @@ server:
   # the "file" backend.  This mode is not highly available and should not be scaled
   # past a single replica.
   standalone:
-    enabled: "-"
+    enabled: false
 
     # config is a raw string of default configuration when using a Stateful
     # deployment. Default is to use a PersistentVolumeClaim mounted at /openbao/data
@@ -911,7 +911,7 @@ server:
   # Helm project by default.  It is possible to manually configure OpenBao to use a
   # different HA backend.
   ha:
-    enabled: false
+    enabled: true
     replicas: 3
 
     # Set the api_addr configuration for OpenBao HA
@@ -930,7 +930,7 @@ server:
     # The OpenBao cluster will coordinate leader elections and failovers internally.
     raft:
       # Enables Raft integrated storage
-      enabled: false
+      enabled: true
       # Set the Node Raft ID to the name of the pod
       setNodeId: false
 
@@ -1073,7 +1073,7 @@ ui:
   # serviceType can be used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
   # balancer (for supported K8S installations) to access the UI.
-  enabled: false
+  enabled: true
   publishNotReadyAddresses: true
   # The service should only contain selectors for active OpenBao pod
   activeOpenbaoPodOnly: false
@@ -1325,7 +1325,7 @@ serverTelemetry:
     #  https://github.com/prometheus-operator/kube-prometheus
 
     # Enable deployment of the OpenBao Server ServiceMonitor CustomResource.
-    enabled: false
+    enabled: true
 
     # Selector labels to add to the ServiceMonitor.
     # When empty, defaults to:
@@ -1354,7 +1354,7 @@ serverTelemetry:
 
     # Deploy the PrometheusRule custom resource for AlertManager based alerts.
     # Requires that AlertManager is properly deployed.
-    enabled: false
+    enabled: true
 
     # Selector labels to add to the PrometheusRules.
     # When empty, defaults to:
@@ -1381,7 +1381,7 @@ serverTelemetry:
   grafanaDashboard:
     # Enable deployment of the OpenBao Grafana dashboard.
     # https://grafana.com/grafana/dashboards/23725-openbao
-    enabled: false
+    enabled: true
 
     # Add `grafana_dashboard: "1"` default label
     defaultLabel: true
