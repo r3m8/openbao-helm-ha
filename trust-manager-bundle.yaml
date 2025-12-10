@@ -1,0 +1,15 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: openbao-trusted-ca
+spec:
+  sources:
+  - secret:
+      name: local-cluster-root-ca-secret
+      key: ca.crt
+  target:
+    configMap:
+      key: ca.crt
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: openbao
